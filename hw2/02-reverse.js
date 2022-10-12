@@ -1,13 +1,13 @@
 /** Exercise 02 - Reverse **/
 
 // Add your code here
-const reverse = document.getElementById('reverse');
-const input = document.getElementById('input');
-const div = document.getElementsByTagName('div');
-let answer = document.createElement('p');
+const reverse = document.getElementById("reverse");
+const input = document.getElementById("input");
+const div = document.getElementsByTagName("div");
+let answer = document.createElement("p");
 
-answer.textContent = '';
-answer.style.marginTop = '24px';
+answer.textContent = "";
+answer.style.marginTop = "24px";
 div[1].append(answer);
 
 const reverseNumber = (numberToReverse) => {
@@ -22,14 +22,14 @@ const reverseNumber = (numberToReverse) => {
   return rev;
 };
 
-reverse.addEventListener('click', (event) => {
+reverse.addEventListener("click", () => {
   const validate = input.value.toString().length;
 
   if (validate === 8) {
-    answer.style.color = 'green';
+    answer.style.color = "green";
     answer.textContent = `${input.value}-->${reverseNumber(input.value)}`;
   } else {
-    answer.style.color = 'red';
-    answer.textContent = 'ERROR: Please input an 8-digit number';
+    answer.style.color = "red";
+    answer.textContent = "ERROR: Please input an 8-digit number";
   }
 });
