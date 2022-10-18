@@ -48,5 +48,4 @@ let getData = (url, results) => {
     });
 };
 
-//console.log(results);
 getData(url, results);
