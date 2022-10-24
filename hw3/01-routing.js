@@ -44,6 +44,47 @@ const server = http.createServer((req, res) => {
   }
 
   // Add your code here
+  if (req.url === '/redirected' || req.url === '/other') {
+    res.writeHead(404, { 'Content-Type': 'text/html' });
+    res.write(
+      `<h1>Error 404. 'http://localhost${port}${req.url}' is broken</h1>`
+    );
+    res.end();
+  }
+
+  if (req.url === '/welcome') {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.write(`<h1>Welcome</h1>`);
+    res.end();
+  }
+
+  if (req.url === '/redirect') {
+    res.writeHead(302, { Location: '/redirected' });
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.write(`<h1>Redirected</h1>`);
+    res.end();
+  }
+
+  if (req.url === '/cache') {
+    res.setHeader('Cache-control', 'max-age=86400');
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.write(`<h1>this resource was cached</h1>`);
+    res.end();
+  }
+
+  if (req.url === '/cookie') {
+    res.setHeader('Set-cookie', 'hello=world');
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.write(`<h1>cookies... yummm'</h1>`);
+    res.end();
+  }
+
+  if (req.url === '/check-cookies') {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    const cookies = req.headers.cookie;
+    res.write(`<h1>${cookies ? 'yes' : 'no'}</h1>`);
+    res.end();
+  }
 });
 
 server.listen(port, () => {
