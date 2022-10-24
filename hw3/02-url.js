@@ -33,6 +33,9 @@ const server = http.createServer((req, res) => {
   }
 
   // Add your code here
+  for (const [key, value] of url.searchParams) {
+    console.log(key, value);
+  }
 
   res.end();
 });
