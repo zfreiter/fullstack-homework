@@ -25,18 +25,29 @@ const server = http.createServer((req, res) => {
 
   if (req.url === '/') {
     let routeResults = getRoutes();
-
     res.writeHead(200, { 'Content-Type': 'text/html' });
     res.write(`<h1>Exercise 02</h1>`);
-
     res.write(`<ul> ${routeResults} </ul>`);
+    //res.end();
   }
 
-  // Add your code here
-  for (const [key, value] of url.searchParams) {
-    console.log(key, value);
-  }
+  let createtable = (url) => {
+    queryList = [];
+    for (const [key, value] of url.searchParams) {
+      queryList.push({ key, value });
+    }
+    result = '';
+    queryList.forEach((item) => {
+      result += `<tr><td>${item.key}</td>` + `<td>${item.value}</td></tr>`;
+    });
+    can = `<table>${result}</table>`;
+    return can;
+  };
 
+  let table = createtable(url);
+  console.log(table);
+  //Add your code here
+  res.write(table);
   res.end();
 });
 
