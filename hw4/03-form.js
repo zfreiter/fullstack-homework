@@ -12,7 +12,9 @@ app.use(express.urlencoded({ extended: false }));
 app.post('', (req, res) => {
   // Add your code here
 });
-
+// app.get('/', (req, res) => {
+//   res.send('hello world express');
+// });
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
