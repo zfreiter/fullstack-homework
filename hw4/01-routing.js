@@ -60,6 +60,24 @@ app.get('/redirected', (req, res) => {
   res.end();
 });
 
+app.get('/welcome', (req, res) => {
+  res.status(200);
+  res.set({ 'Content-Type': 'text/html' });
+  res.send(`<h1>Hello to the welcome page!</h1>`);
+  res.end();
+});
+
+app.get('/redirect', (req, res) => {
+  res.redirect('/redirected');
+  res.end();
+});
+
+app.get('/redirected', (req, res) => {
+  res.status(200);
+  res.send(`<h1>You have been redirected to redirected!</h1>`);
+  res.end();
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
