@@ -42,7 +42,6 @@ app.get('/welcome', (req, res) => {
 // http://localhost:5000/redirect should redirect the request to '/redirected' by using 302 as the status code / the redirected page should return a redirected message of your choice
 app.get('/redirect', (req, res) => {
   res.redirect('/redirected');
-  res.end();
 });
 
 app.get('/redirected', (req, res) => {
