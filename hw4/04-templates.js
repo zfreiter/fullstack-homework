@@ -12,10 +12,20 @@ app.set('view engine', 'pug');
 const url = 'https://restcountries.com/v3.1/all';
 
 // Add your code here
+async function getUserData() {
+  try {
+    const response = await axios.get(url);
+    console.log(response.data[0].name);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 app.get('/', (req, res) => {
   // render pug template for the index.html file
+  let data = getUserData();
 
+  //console.log(data);
   res.render('index', {
     heading: 'Countries of the World',
     main: 'Welcome to this application. Using the REST Countries API, we will be showing the countries and capitals of the world, the most populous countries in the world, and the number of countries in each region of the world',
