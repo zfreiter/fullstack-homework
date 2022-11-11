@@ -12,6 +12,94 @@ app.set('view engine', 'pug');
 const url = 'https://restcountries.com/v3.1/all';
 
 // Add your code here
+const restData = async () => {
+  try {
+    const response = await axios.get(url);
+    console.log(`Responsed received from ${url}`);
+    return response.data;
+  } catch (error) {
+    console.log(`ERROR: ${error}`);
+    return -1;
+  }
+};
+
+const formatDataCapitals = (data) => {
+  data.sort((a, b) => {
+    const name1 = a.name.official.toUpperCase();
+    const name2 = b.name.official.toUpperCase();
+
+    let comparison = 0;
+
+    if (name1 > name2) {
+      comparison = 1;
+    } else if (name1 < name2) {
+      comparison = -1;
+    }
+    return comparison;
+  });
+
+  const capitalsData = [];
+  data.forEach((country) => {
+    const {
+      name: { official },
+      capital,
+    } = country;
+    capitalsData.push([`${official} - ${capital ? capital : 'N/A'}`]);
+  });
+
+  return capitalsData;
+};
+
+const formatDataPop = (data) => {
+  data.sort((a, b) => {
+    const name1 = a.population;
+    const name2 = b.population;
+
+    let comparison = 0;
+
+    if (name1 > name2) {
+      comparison = -1;
+    } else if (name1 < name2) {
+      comparison = 1;
+    }
+    return comparison;
+  });
+
+  const popData = [];
+  data.forEach((country) => {
+    const {
+      name: { official },
+      population,
+    } = country;
+    popData.push([`${official} - ${Number(population).toLocaleString()}`]);
+  });
+
+  return popData.slice(0, 50);
+};
+
+const formatDataReg = (data) => {
+  const regionData = [];
+  data.forEach((country) => {
+    const { region } = country;
+    regionData.push([region]);
+  });
+
+  let counter = {};
+  for (region of regionData.flat()) {
+    if (counter[region]) {
+      counter[region] += 1;
+    } else {
+      counter[region] = 1;
+    }
+  }
+
+  const regionCount = [];
+  for (const [key, value] of Object.entries(counter)) {
+    regionCount.push(`${key} - ${value}`);
+  }
+
+  return regionCount;
+};
 
 app.get('/', (req, res) => {
   // render pug template for the index.html file
@@ -22,40 +110,30 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/capitals', (req, res) => {
-  // map the output array to create an array with country names and capitals
-  // check for empty data in the output array
-
-  let countries = ['Afghanistan', 'Aland Islands', 'Albania'];
+app.get('/capitals', async (req, res) => {
+  let data = await restData();
 
   res.render('page', {
     heading: 'Countries and Capitals',
-    results: countries,
+    results: formatDataCapitals(data),
   });
 });
 
-app.get('/populous', (req, res) => {
-  // filter the output array for the countries with population of 50 million or more
-  // sort the resulting array to show the results in order of population
-  // map the resulting array into a new array with the country name and formatted population
-
-  let populous = ['China', 'India', 'United States of America'];
+app.get('/populous', async (req, res) => {
+  let data = await restData();
 
   res.render('page', {
     heading: 'Most Populous Countries',
-    results: populous,
+    results: formatDataPop(data),
   });
 });
 
-app.get('/regions', (req, res) => {
-  // reduce the output array in a resulting object that will feature the numbers of countries in each region
-  // disregard empty data from the output array
-
-  let regions = ['Asia - 50', 'Europe - 53', 'Africa - 60'];
+app.get('/regions', async (req, res) => {
+  let data = await restData();
 
   res.render('page', {
     heading: 'Regions of the World',
-    results: regions,
+    results: formatDataReg(data),
   });
 });
 

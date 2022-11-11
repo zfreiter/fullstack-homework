@@ -1,0 +1,18 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  text-align: center;
+  background-color: aquamarine;
+}
+
+form {
+  display: inline-block;
+  padding: 20px;
+  border: 2px solid black;
+  border-radius: 4px;
+}
+
+.textLabel {
+  margin-top: 20px;
+}
